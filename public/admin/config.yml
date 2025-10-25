@@ -1,19 +1,43 @@
 backend:
-  name: git-gateway
-  branch: main # Branch to update (optional; defaults to master)
+  name: git-gateway   # change to `github` + repo if not on Netlify
+  branch: main
 
-media_folder: public/img
-public_folder: /img
+publish_mode: editorial_workflow
+local_backend: true
+
+media_folder: "public/uploads"   # files stored in repo
+public_folder: "/uploads"        # how they’re referenced in Markdown
 
 collections:
-  - name: 'guide'
-    label: 'Guide'
-    folder: 'guide'
-    create: true
-    slug: '{{slug}}'
-    editor:
-      preview: false
+  - name: "docs"
+    label: "Docs"
+    label_singular: "Doc"
+    folder: "docs"               # VitePress content lives here
+    create: true                 # allow new pages from the CMS
+    extension: "md"
+    format: "frontmatter"
+    nested:
+      depth: 10                  # allow deep folders
+      summary: "{{title}}"
+    slug: "{{slug}}"             # filename (no date prefix)
+    path: "{{dirname}}/{{slug}}" # preserve folder structure
+    sortable_fields: ["commit_date", "title", "order"]
+    view_groups:
+      - { label: "Directory", field: "path" }
     fields:
-      - { label: 'Title', name: 'title', widget: 'string' }
-      - { label: 'Description', name: 'description', widget: 'string' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false }
+      - { label: "Order (sidebar hint)", name: "order", widget: "number", required: false, value_type: "int" }
+      - label: "Outline"
+        name: "outline"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Auto (deep)", value: "deep" }
+          - { label: "H2 only", value: 2 }
+          - { label: "H3 only", value: 3 }
+      - { label: "Aside (right TOC)", name: "aside", widget: "boolean", required: false }
+      - { label: "Prev link", name: "prev", widget: "string", required: false }
+      - { label: "Next link", name: "next", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
