@@ -6,7 +6,12 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'My Docs',
+			title: 'Entrie Docs',
+			logo: {
+				src: "./src/assets/Entrie-FullLogo.svg",
+				replacesTitle: true,	
+			},
+
 			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
 			sidebar: [
 				{
@@ -21,6 +26,10 @@ export default defineConfig({
 					autogenerate: { directory: 'reference' },
 				},
 			],
+			      customCss: [
+        // Relative path to your custom CSS file
+        './src/styles/background.css',
+      ],
 		}),
 	],
 });

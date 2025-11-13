@@ -1,0 +1,16 @@
+:root {
+  --bg-color: #000000;
+  --hotspot-color: rgba(255, 31, 240, 0.15); /* same Entrie pink, 0x26 ≈ 15% opacity */
+}
+
+body {
+  background: radial-gradient(
+      circle at 25% 40%, var(--hotspot-color) 0%, transparent 75%
+    ),
+    radial-gradient(
+      circle at 85% 65%, var(--hotspot-color) 0%, transparent 60%
+    ),
+    var(--bg-color);
+  background-blend-mode: screen;
+  background-attachment: fixed;
+}
